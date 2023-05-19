@@ -1,23 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import Header from "./components/Header";
+import Menu from "./components/Menu";
+import EntryForm from "./components/EntryForm";
+import EntryList from "./components/EntryList";
 
 function App() {
+  const [entries, setEntries] = useState([]);
+
+  const addEntry = (motto, notes) => {
+    setEntries([
+      ...entries,
+      { motto: motto, notes: notes, timestamp: new Date() },
+    ]);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App" style={{ margin: "0 auto", maxWidth: "800px" }}>
+      <Header />
+      <Menu />
+      <EntryForm addEntry={addEntry} />
+      <EntryList entries={entries} />
     </div>
   );
 }
