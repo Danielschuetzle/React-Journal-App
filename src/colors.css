@@ -4,11 +4,12 @@
   /* Used for backgrounds (+ footer text color) */
   --color-foam: #ffffff;
   /* Used for buttons, icons, etc. */
-  --color-nemo: #ff4a11;
+  --color-blue: #000080;
   /* active color for buttons, icons, etc. */
-  --color-nemo-mid: #ff5c29;
+  --color-blue-mid: #00008b;
   /* hover color for buttons, icons, etc. */
-  --color-nemo-dark: #e5430f;
-  /* Used for borders and some backgrounds */
+  --color-blue-dark: #00008b;
+  /* Used for borders and some backgrounds and hover effects */
   --color-water-10: #e4e8f0;
+  --color-water: #f3f5f9;
 }
