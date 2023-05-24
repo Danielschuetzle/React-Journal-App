@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import EntriesSection from "./components/EntriesSection";
 import EntryForm from "./components/EntryForm";
@@ -37,8 +37,28 @@ const initialEntries = [
 ];
 
 function App() {
-  const [entries, setEntries] = useState(initialEntries);
+  // First, it tries to get the "entries" from localStorage. If they exist, it parses the JSON string to an object and uses that.
+  // If no data exists in localStorage under the key "entries", it uses the initialEntries.
+  const [entries, setEntries] = useState(() => {
+    const localData = localStorage.getItem("entries");
+    return localData ? JSON.parse(localData) : initialEntries;
+  });
+
   const [filter, setFilter] = useState("all"); // "all" or "favorites"
+
+  // useEffect hook triggers when 'entries' state changes
+  useEffect(() => {
+    // It serializes the entries state to a JSON string and stores it in localStorage under the key "entries".
+    localStorage.setItem("entries", JSON.stringify(entries));
+  }, [entries]);
+
+  useEffect(() => {
+    localStorage.setItem("entries", JSON.stringify(entries));
+  }, [entries]);
+
+  // not working: function App() {
+  // const [entries, setEntries] = useLocalStorageState("entries", initialEntries);
+  // const [filter, setFilter] = useState("all");
 
   function handleAddEntry(newEntry) {
     const date = new Date().toLocaleDateString("en-us", {
@@ -63,7 +83,7 @@ function App() {
     setFilter("all");
   }
 
-  const favoriteEntries = entries.filter((entry) => entry.isFavorite);
+  const favoriteEntries = entries?.filter((entry) => entry.isFavorite);
 
   return (
     <div className="app">
@@ -73,8 +93,8 @@ function App() {
         <EntriesSection
           entries={filter === "favorites" ? favoriteEntries : entries}
           filter={filter}
-          allEntriesCount={entries.length}
-          favoriteEntriesCount={favoriteEntries.length}
+          allEntriesCount={entries?.length}
+          favoriteEntriesCount={favoriteEntries?.length}
           onToggleFavorite={handleToggleFavorite}
           onShowAllEntries={handleShowAllEntries}
           onShowFavoriteEntries={handleShowFavoriteEntries}
